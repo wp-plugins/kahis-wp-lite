@@ -3,7 +3,7 @@ Contributors: kahi
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=kahi%40kahi%2ecz&item_name=Kahi&no_shipping=1&cn=Your%20note%2e%2e%2e&tax=0&currency_code=EUR&lc=CZ&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: lite, wplite, usability, admin, administration, minimal, light, lightweight, hide, customization
 Requires at least: 2.7
-Tested up to: 2.9
+Tested up to: 2.9.2
 Stable tag: trunk
 
 Hide from your administration functions you don't need!
@@ -23,3 +23,11 @@ For more information, support, giving feedback or anything - see the [official p
 == Screenshots ==
 
 [Show the screenshot](http://kahi.cz/wordpress/wp-content/images/plugin-wp-lite/wp-lite.png)
+
+== Changelog ==
+
+= 0.8.1 = 
+* FIX: Turned off error reporting 
+
+= 0.8 = 
+* (First public realease)
