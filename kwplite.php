@@ -4,14 +4,14 @@ Plugin Name: Kahi's WP Lite
 Plugin URI: http://kahi.cz/wordpress/wp-lite-plugin/
 Description: Make WordPress look thin.
 Author: Peter Kahoun
-Version: 0.8
+Version: 0.8.1
 Author URI: http://kahi.cz
 */
 
 // @todo next: other selector-boxes [20]
 
 class kwplite {
-	const DEV = true;
+	const DEV = false;
 	
 	// Descr: full name. used on options-page, ...
 	static $full_name = 'Kahi\'s WP Lite';
