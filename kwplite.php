@@ -4,7 +4,7 @@ Plugin Name: Kahi's WP Lite
 Plugin URI: http://kahi.cz/wordpress/wp-lite-plugin/
 Description: Make WordPress look thin.
 Author: Peter Kahoun
-Version: 0.8.1
+Version: 0.8.2
 Author URI: http://kahi.cz
 */
 
@@ -12,7 +12,7 @@ Author URI: http://kahi.cz
 
 class kwplite {
 	const DEV = false;
-	
+
 	// Descr: full name. used on options-page, ...
 	static $full_name = 'Kahi\'s WP Lite';
 
@@ -36,10 +36,10 @@ class kwplite {
 		'custom_css' => '',
 		'userlevel' => false,
 	);
-	
+
 	// to store some stuff in original shape ($menu, $submenu)
 	static $remember = array();
-	
+
 	/**
 	 * Selectors and descriptions of all hide-able elements
 	 * @uses apply_filters() 'kwplite_selectors'
@@ -143,7 +143,7 @@ class kwplite {
 	// Descr: constructor replacement (this class is designed to be used as static). calling the initialization: see the end.
 	public static function Init () {
 		if (self::DEV) error_reporting(E_ALL);
-		
+
 		// set self::$dir_name
 		// example: my-plugin
 		$t = str_replace('\\', '/', dirname(__FILE__));
@@ -155,7 +155,7 @@ class kwplite {
 
 		// prepare settings
 		self::prepareSettings();
-		
+
 		// hooking
 		register_uninstall_hook(__FILE__, array(self::$abbr, 'uninstall'));
 		add_action('admin_init', array (self::$abbr, 'admin_init'));
@@ -170,22 +170,22 @@ class kwplite {
 	// fires custom hooks
 	// modifies global variables $menu and $submenu
 	public static function admin_init ($content) {
-		
+
 		// fire custom hooks
 		self::$selectors = apply_filters('kwplite_selectors', self::$selectors);
-		
-		
-		
+
+
+
 		// modify global variables $menu and $submenu
 		global $menu, $submenu;
 		if (!isset($menu) OR !isset($submenu)) return;
-		
+
 		// backup original content of menu (will be needed on options-page)
 		// @maybe rewrite: don't modify $menu, just the menu-output cycle (possible? simple?)
-		self::$remember['menu'] = $menu; 
+		self::$remember['menu'] = $menu;
 		self::$remember['submenu'] = $submenu;
-		
-		
+
+
 		// maybe terminate functíon (if user-level restriction applies)
 		// @maybe fix DRY
 		global $current_user;
@@ -214,9 +214,9 @@ class kwplite {
 						continue;
 					}
 				}
-			}		
+			}
 		}
-		
+
 	}
 
 
@@ -252,11 +252,11 @@ class kwplite {
 		float:left; margin-right:20px;
 		min-width:200px; max-width:350px; padding-top:20px;
 	}
-	
+
 		#kwplite div.col .col-content {
 			height:380px; padding-right:2em; overflow-y:scroll;
 		}
-	
+
 		#kwplite div.col .col-content.tall {
 			height:780px;
 		}
@@ -284,13 +284,13 @@ class kwplite {
 
 
 	/* post-editing elements hiding xxx */
-	
-<?php 
+
+<?php
 
 	global $current_user;
-	
-	if ((!self::$settings['userlevel']) OR (self::$settings['userlevel'] AND $current_user->user_level >= self::$settings['userlevel'])) {
-		
+
+	if ((!self::$settings['userlevel']) OR (self::$settings['userlevel'] AND $current_user->user_level < self::$settings['userlevel'])) {
+
 		if (isset(self::$settings['elements_to_hide'])) {
 			foreach (self::$settings['elements_to_hide'] as $s_group_name => $s_group_data) {
 				if (is_array($s_group_data)) {
@@ -301,19 +301,19 @@ class kwplite {
 					}
 				}
 			}
-		} 
-	
+		}
+
 	} ?> #non_ex_ist_ing {display:none;}
 
 
 	/* custom css */
 
-<?php 
-	if ((!self::$settings['userlevel']) OR (self::$settings['userlevel'] AND $current_user->user_level >= self::$settings['userlevel'])) {
+<?php
+	if ((!self::$settings['userlevel']) OR (self::$settings['userlevel'] AND $current_user->user_level < self::$settings['userlevel'])) {
 		echo self::$settings['custom_css'];
 	}
 ?>
-	
+
 </style>
 
 <?php
@@ -329,7 +329,7 @@ class kwplite {
 	public static function adminPage () {
 		require_once 'admin-page.php';
 	}
-	
+
 
 	// ====================  WP-general code  ====================
 
@@ -348,12 +348,12 @@ class kwplite {
 				// do nothing, let there be the default value
 			}
 		}
-		
+
 		// self::debug(self::$settings);
 
 	}
-	
-	
+
+
 	/**
 	 * WP Hook: Uninstallation. Removes all plugin's settings. Very reusable.
 	 * @return void
@@ -363,8 +363,8 @@ class kwplite {
 			delete_option(self::$abbr.'_'.$name);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Outputs content given as first parameter. Enhanced replacement for var_dump().
 	 * @param mixed Variable to output
@@ -372,13 +372,13 @@ class kwplite {
 	 * @return void
 	 */
 	public static function debug($var, $descr = false) {
-		
+
 		if ($descr) echo '<p style="background:#666; color:#fff"><b>'.$descr.':</b></p>';
-		
+
 		echo '<pre style="max-height:300px; overflow-y:auto">'.htmlSpecialChars(var_export($var, true)).'</pre>';
-		
+
 	}
-	
+
 
 } // end of class
 

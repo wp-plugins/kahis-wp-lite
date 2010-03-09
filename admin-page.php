@@ -1,5 +1,5 @@
-<?php 
-// included into kwplite.php > class kwplite > function adminPage 
+<?php
+// included into kwplite.php > class kwplite > function adminPage
 
 $vars_to_save = array();
 ?>
@@ -7,9 +7,9 @@ $vars_to_save = array();
 	<div class="wrap" id="<?php echo self::$abbr; ?>">
 
 		<h2><?php echo self::$short_name; ?></h2>
-		
+
 		<p><?php _e('Check what you want to hide.') ?></p>
-		
+
 		<form method="post" action="options.php">
 
 <?php
@@ -22,22 +22,22 @@ $vars_to_save = array();
 		<ul class="col-content tall">
 		<?php
 		$vars_to_save[] = 'menuitems';
-		
+
 		// restructure $menu
 		$menu = self::$remember['menu'];
 		$submenu = self::$remember['submenu'];
-				
+
 		foreach ($menu as $menuitem) {
-			
+
 			?>
-			
+
 			<li><label>
-				<input type="checkbox" name="<?php echo self::$abbr . '_menuitems[1'.md5($menuitem[2]).']'; ?>" 
+				<input type="checkbox" name="<?php echo self::$abbr . '_menuitems[1'.md5($menuitem[2]).']'; ?>"
 				<?php if (isset(self::$settings['menuitems']['1'.md5($menuitem[2])])) echo 'checked="checked"'; ?> />
-					
+
 				<strong><?php if ($menuitem[0]) echo $menuitem[0]; else echo '— <em>separator</em> —' ?></strong>
-			</label>	
-				
+			</label>
+
 			<?php
 
 			if (array_key_exists($menuitem[2], $submenu)) {
@@ -45,15 +45,15 @@ $vars_to_save = array();
 				foreach ($submenu[$menuitem[2]] as $menuitem) {
 					?>
 
-			
+
 			<li><label>
-				<input type="checkbox" name="<?php echo self::$abbr . '_menuitems[2'.md5($menuitem[2]).']'; ?>" 
+				<input type="checkbox" name="<?php echo self::$abbr . '_menuitems[2'.md5($menuitem[2]).']'; ?>"
 				<?php if (isset(self::$settings['menuitems']['2'.md5($menuitem[2])])) echo 'checked="checked"'; ?> />
-					
+
 				<?php echo $menuitem[0] ?>
 			</label>
 
-						
+
 					<?php
 				}
 				echo '</ul>';
@@ -71,7 +71,7 @@ $vars_to_save = array();
 // go trough self::$settings[elements_to_hide] and echo identifiers from self::$selectors[...][...]
 
 $vars_to_save[] = 'elements_to_hide';
-foreach (self::$selectors as $s_group_name => $s_group_data) { 
+foreach (self::$selectors as $s_group_name => $s_group_data) {
 	if (empty($s_group_data)) continue; ?>
 
 	<div class="col <?php echo $s_group_name ?>">
@@ -88,17 +88,17 @@ foreach (self::$selectors as $s_group_name => $s_group_data) {
 		} ?>
 
 		<li<?php echo $separated ? ' class="separated"':''; ?>><label>
-			<input type="checkbox" 
-			name="<?php echo self::$abbr . '_elements_to_hide['.$s_group_name.']['.$e_id.']'; ?>" 
+			<input type="checkbox"
+			name="<?php echo self::$abbr . '_elements_to_hide['.$s_group_name.']['.$e_id.']'; ?>"
 			<?php if (isset(self::$settings['elements_to_hide'][$s_group_name][$e_id])) echo ' checked="checked"'; ?> />
 			<?php echo $e_data[1] ?>
-		</label>	
+		</label>
 
 		<?php
 		$separated = false;
 
 	} ?>
-	</ul>		
+	</ul>
 
 	</div>
 
@@ -114,15 +114,15 @@ foreach (self::$selectors as $s_group_name => $s_group_data) {
 			<p><textarea name="<?php echo self::$abbr; ?>_custom_css" cols="30" rows="15"><?php echo htmlspecialchars(self::$settings['custom_css']); ?></textarea></p>
 		</div>
 	</div>
-	
+
 		<div class="cleaner"></div>
-		
+
 		<h3>User level</h3>
 		<?php $vars_to_save[] = 'userlevel'; ?>
 		<p>Apply settings only for users on level &lt;  <input type="text" name="<?php echo self::$abbr ?>_userlevel" value="<?php echo @self::$settings['userlevel'] ?>" size="3" /> (leave empty to apply settings to all user-levels)
 			<br />Help: <a href="http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table">Levels vs. Roles</a></p>
-		
-		
+
+
 		<p class="submit">
 			<?php wp_nonce_field('update-options') ?>
 			<input type="hidden" name="action" value="update" />
@@ -131,24 +131,24 @@ foreach (self::$selectors as $s_group_name => $s_group_data) {
 		</p>
 
 		</form>
-		
-<?php 
+
+<?php
 if (self::DEV) { ?>
-	
+
 	<hr />
 	<h3>Reset settings</h3>
-	
-	<?php 
+
+	<?php
 	if (@$_POST['action'] == 'reset') {
-		self::uninstall(); 
+		self::uninstall();
 		echo '<div id="message" class="updated fade"><p>Reset hopefully done. Is it ok now?</p></div>';
 	} ?>
-	
+
 	<form action="?page=<?php echo $_GET['page'] ?>" method="post">
 		<input type="hidden" name="action" value="reset">
 		<input type="submit" value="Reset it!">
 	</form>
 
-<?php	
+<?php
 } ?>
 	</div><!-- /wrap -->
