@@ -24,7 +24,7 @@ For more information, support, giving feedback, reporting problems (thank you fo
 
 = 0.9 = 
 * ADD: Some of the details brought by WP 3.1
-* MOD: Interface improvements
+* MOD: Nice interface improvements
 
 = 0.8.3 = 
 * FIX: Various small fixes
